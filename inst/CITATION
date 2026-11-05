@@ -1,0 +1,16 @@
+citHeader("To cite GGMsubho in publications, please use:")
+
+bibentry(
+  bibtype = "Misc",
+  title = "Fast Bayesian High-Dimensional Gaussian Graphical Model Estimation",
+  author = c(person("Sagnik", "Bhadury"), person("Riten", "Mitra"), person(c("Jeremy", "T."), "Gaskins")),
+  year = "2023",
+  eprint = "2308.02713",
+  archivePrefix = "arXiv",
+  primaryClass = "stat.ME",
+  doi = "10.48550/arXiv.2308.02713",
+  url = "https://arxiv.org/abs/2308.02713",
+  textVersion = paste("Bhadury S, Mitra R, Gaskins JT (2023).",
+                      "Fast Bayesian High-Dimensional Gaussian Graphical Model Estimation.",
+                      "arXiv:2308.02713. https://arxiv.org/abs/2308.02713")
+)

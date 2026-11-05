@@ -1,0 +1,57 @@
+Package: GGMsubho
+Type: Package
+Title: Sparse Gaussian Graphical Model Estimation with Step-Up Bayesian Horseshoe Selection
+Version: 0.1.0
+Authors@R: c(
+    person("Sagnik", "Bhadury", email = "bhadury@upenn.edu", role = c("aut", "cre")),
+    person("Riten", "Mitra", role = "aut"),
+    person("Jeremy T.", "Gaskins", role = "aut"))
+Description: Estimates sparse networks of conditional dependence from
+    high-dimensional continuous data with Graphical-SUBHO (Step-Up Bayesian
+    HOrseshoe; Bhadury, Mitra and Gaskins 2023 <doi:10.48550/arXiv.2308.02713>).
+    Each variable is regressed on the others under a horseshoe prior (Carvalho,
+    Polson and Scott 2010 <doi:10.1093/biomet/asq017>), the predictors are ranked
+    by the size of their posterior coefficient, and a Beta-Bernoulli model prior
+    and a conjugate working marginal likelihood select one model along the K+1
+    nested models. Neighbourhoods are combined by the AND or OR rule of Meinshausen
+    and Buhlmann (2006) <doi:10.1214/009053606000000281>, and partial correlations
+    are recovered from the coefficients. The regressions run in parallel and their
+    results do not depend on the number of cores. The package also provides the
+    comparison methods of the article, including the graphical horseshoe, simulators
+    with a known graph, accuracy measures, network figures, and a processed gene
+    expression panel from triple-negative breast cancer patients in the METABRIC
+    study (Curtis et al. 2012 <doi:10.1038/nature10983>).
+License: MIT + file LICENSE
+Copyright: See inst/COPYRIGHTS for the included data.
+URL: https://github.com/sagnikbhadury/GGMsubho
+BugReports: https://github.com/sagnikbhadury/GGMsubho/issues
+Encoding: UTF-8
+LazyData: true
+LazyDataCompression: xz
+Depends: R (>= 4.1)
+Imports:
+    ggplot2,
+    ggraph,
+    glmnet,
+    igraph,
+    parallel,
+    Rcpp,
+    stats,
+    withr
+LinkingTo:
+    Rcpp,
+    RcppArmadillo
+Suggests:
+    BAS,
+    BDgraph,
+    CVglasso,
+    knitr,
+    patchwork,
+    pROC,
+    projpred,
+    rmarkdown,
+    rstanarm,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)

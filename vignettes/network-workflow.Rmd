@@ -1,0 +1,97 @@
+---
+title: "From a data matrix to a network figure"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{From a data matrix to a network figure}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 6, fig.height = 6.4,
+                      out.width = "90%", dpi = 72)
+```
+
+This vignette walks through a network analysis with Graphical-SUBHO (Bhadury, Mitra and
+Gaskins 2023, [arXiv:2308.02713](https://arxiv.org/abs/2308.02713)). All data are simulated.
+The sampler is shortened so that the vignette builds in seconds; use the defaults of
+`subho()` for an analysis.
+
+```{r}
+library(GGMsubho)
+```
+
+## Data
+
+`subho()` takes a numeric matrix with samples in rows and variables in columns. Here the
+true network is known.
+
+```{r}
+sim <- simulate_ggm(n = 100, p = 15, structure = "random", edge_prob = 0.12,
+                    node_names = sprintf("Gene%02d", 1:15), seed = 2026)
+dim(sim$data)
+sum(sim$graph[upper.tri(sim$graph)])
+```
+
+## Fit
+
+Every variable is regressed on the others under a horseshoe prior. Predictors are ranked by
+the size of their coefficient, and a step-up comparison of nested models selects a
+neighbourhood.
+
+```{r}
+fit <- subho(sim$data, n_iter = 500, burn = 100, thin = 2, seed = 1)
+fit
+summary(fit, "and")
+```
+
+## The network
+
+The AND rule keeps an edge when both nodes select each other; the OR rule when either does.
+
+```{r}
+round(graph_metrics(fit$graph_and, sim$graph), 3)
+net <- network_data(fit, rule = "and")
+head(net$edges)
+top_connected(fit, top = 5)
+```
+
+## Figures
+
+`plot_network()` returns a `ggplot` object. Edge colour shows the sign of the partial
+correlation, edge width its magnitude, and node size the sum of absolute partial
+correlations at the node.
+
+```{r}
+plot_network(fit, subtitle = "AND rule")
+```
+
+The edges can instead be coloured by groups of nodes.
+
+```{r}
+clusters <- cluster_nodes(sim$data, k = 3)
+plot_network(fit, clusters = clusters)
+```
+
+## Comparing methods
+
+The comparison methods of the article return the same kind of object, so they work with the
+same tools. Here is the graphical horseshoe of Li, Craig and Bhadra (2019).
+
+```{r}
+ghs <- ghs_ggm(sim$data, burn = 100, n_save = 300, seed = 1)
+ghs
+round(graph_metrics(ghs$graph, sim$graph), 3)
+```
+
+```{r, eval = requireNamespace("patchwork", quietly = TRUE), fig.width = 7, fig.height = 3.6}
+plot_network_panels(list(Truth = sim$partial_cor, SUBHO = fit, GHS = ghs), ncol = 3)
+```
+
+## References
+
+Bhadury S, Mitra R, Gaskins JT (2023). Fast Bayesian High-Dimensional Gaussian Graphical
+Model Estimation. arXiv:2308.02713.
+
+Li Y, Craig BA, Bhadra A (2019). The graphical horseshoe estimator for inverse covariance
+matrices. Journal of Computational and Graphical Statistics, 28(3), 747-757.

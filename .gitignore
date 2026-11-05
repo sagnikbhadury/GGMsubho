@@ -1,0 +1,17 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+src/*.o
+src/*.so
+src/*.dll
+*.tar.gz
+*.Rcheck/
+vignettes/*.html
+vignettes/*.R
+*.rds
+*.rda
+*.RData
+*.csv
+*.tsv
+!data/tnbc_metabric.rda

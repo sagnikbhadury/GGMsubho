@@ -1,0 +1,10 @@
+The code of GGMsubho is licensed as stated in the DESCRIPTION file.
+
+The dataset data/tnbc_metabric.rda is a processed subset of the METABRIC breast cancer
+study (brca_metabric) obtained from cBioPortal for Cancer Genomics:
+https://www.cbioportal.org/study/summary?id=brca_metabric
+
+cBioPortal states that, unless otherwise noted, its data are available under the ODC Open
+Database License (https://opendatacommons.org/licenses/odbl/1-0/), with attribution to the
+original studies. This subset is shared under the same licence. See ?tnbc_metabric for the
+processing and the publications to cite.
